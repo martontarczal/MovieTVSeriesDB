@@ -31,6 +31,8 @@ public class H2ReadMovies {
             String releaseyear = rs.getString("releaseyear");
             String descriptiontest = rs.getString("descriptiontest");
             System.out.println(id + ", " + title + ", " + releaseyear + ", " + descriptiontest);
+            
+            //cont. from here with String[] shit!
         }
 
 	}
