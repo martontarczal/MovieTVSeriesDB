@@ -14,7 +14,13 @@ public class DBGUI extends JFrame {
     static JTextField searchtf;
     
     static JPanel displayPanel;
+    static JPanel displayTextPanel;
     static JTextArea displayTextArea;
+    
+    static JPanel buttonPanel;
+    static JButton insertButton;
+    static JButton updateButton;
+    static JButton removeButton;
 
 	
 	public void guiStart() {
@@ -27,7 +33,6 @@ public class DBGUI extends JFrame {
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		
 		searchPanel = new JPanel();
-//		mainLabel = new JLabel("WOT?");
 		b1 = new JButton("Movies");
 		b1.setBackground(PURPLE);
 		b1.setForeground(Color.WHITE);
@@ -52,12 +57,10 @@ public class DBGUI extends JFrame {
 		searchPanel.add(b3);
 		
 		searchPanel.setBackground(Color.white);
-//		searchPanel.setSize(1500, 36);
 		searchPanel.setPreferredSize(new Dimension(1500, 36));
 		searchPanel.setMaximumSize(new Dimension(1500, 36));
 		searchPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, PURPLE));
 		
-//		frame.add(searchPanel);
 		
 		
 		
@@ -65,28 +68,37 @@ public class DBGUI extends JFrame {
 		//displayPanel begins here:
 		displayPanel = new JPanel();
 		displayPanel.setBackground(Color.white);
-		displayPanel.setLayout(new GridBagLayout());
+		displayPanel.setLayout(new FlowLayout(1,2, getDefaultCloseOperation()));
+		
+		displayTextPanel = new JPanel();
+		displayTextPanel.setBackground(Color.white);
+		displayTextPanel.setPreferredSize(new Dimension(1405, 764));
+		displayTextPanel.setMaximumSize(new Dimension(1405, 764));
 
 		
-//		displayPanel.add(Box.createRigidArea(new Dimension(100,100)));
 		displayTextArea = new JTextArea("Some text bullshit\nSome more text bullshit.");
 		displayTextArea.setEditable(false);
 		displayTextArea.setLineWrap(true);
 		displayTextArea.setWrapStyleWord(true);
-		displayTextArea.setPreferredSize(new Dimension(1400, 650));
+		displayTextArea.setPreferredSize(new Dimension(1405, 715));
 		displayTextArea.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, PURPLE));
-		displayPanel.add(displayTextArea);
 		
+		displayTextPanel.add(displayTextArea);
 		
+		insertButton = new JButton("Insert");
+		updateButton = new JButton("Update");
+		removeButton = new JButton("Remove");
+		buttonPanel = new JPanel(new GridLayout(16, 1, 10, 20));
+		buttonPanel.setBackground(Color.white);
+
 		
+		displayPanel.add(displayTextPanel);
+		displayPanel.add(buttonPanel);
+		buttonPanel.add(insertButton);
+		buttonPanel.add(updateButton);
+		buttonPanel.add(removeButton);
 		
-//		frame.add(displayPanel);
-		
-		
-		
-		
-		
-		
+				
 		mainPanel.add(searchPanel);
 		mainPanel.add(displayPanel);
 		frame.add(mainPanel);
