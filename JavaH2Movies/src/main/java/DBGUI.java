@@ -3,24 +3,29 @@ import javax.swing.*;
 
 public class DBGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
-	public static final Color PURPLE = new Color(102,0,153);
+	private static final Color PURPLE = new Color(102,0,153);
 
-	static JFrame frame;
-	static JPanel mainPanel;
+	private static JFrame frame;
+	private static JPanel mainPanel;
 	
-	static JPanel searchPanel;
-    static JLabel mainLabel;
-    static JButton b1, b2, b3;
-    static JTextField searchtf;
+	private static JPanel searchPanel;
+	private static JLabel mainLabel;
+	private static JButton b1, b2, b3;
+	private static JTextField searchtf;
     
-    static JPanel displayPanel;
-    static JPanel displayTextPanel;
-    static JTextArea displayTextArea;
+	private static JPanel displayPanel;
+	private static JPanel displayTextPanel;
+	private static JTextArea displayTextArea;
     
-    static JPanel buttonPanel;
-    static JButton insertButton;
-    static JButton updateButton;
-    static JButton removeButton;
+	private static JPanel buttonPanel;
+	private static JButton insertButton;
+	private static JButton updateButton;
+	private static JButton removeButton;
+	
+	//new shit
+    private static JScrollPane listScrollPane = new JScrollPane();
+    private static String[] stringArray = {"Testing", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff"};
+    private static JList rowList = new JList(stringArray);
 
 	
 	public void guiStart() {
@@ -76,21 +81,40 @@ public class DBGUI extends JFrame {
 		displayTextPanel.setMaximumSize(new Dimension(1405, 764));
 
 		
-		displayTextArea = new JTextArea("Some text bullshit\nSome more text bullshit.");
-		displayTextArea.setEditable(false);
-		displayTextArea.setLineWrap(true);
-		displayTextArea.setWrapStyleWord(true);
-		displayTextArea.setPreferredSize(new Dimension(1405, 715));
-		displayTextArea.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, PURPLE));
+//		displayTextArea = new JTextArea("Some text bullshit\nSome more text bullshit.");
+//		displayTextArea.setEditable(false);
+//		displayTextArea.setLineWrap(true);
+//		displayTextArea.setWrapStyleWord(true);
+//		displayTextArea.setPreferredSize(new Dimension(1405, 715));
+//		displayTextArea.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, PURPLE));
+//		
+//		displayTextPanel.add(displayTextArea);
 		
-		displayTextPanel.add(displayTextArea);
+		//displayTextArea replaced with selectable string array list
+		rowList.setVisibleRowCount(2);
+        listScrollPane.setViewportView(rowList);
+        displayTextPanel.setLayout(new BorderLayout());
+        displayTextPanel.add(listScrollPane);
 		
 		insertButton = new JButton("Insert");
+		insertButton.setBackground(Color.pink);
+		insertButton.setForeground(Color.WHITE);
+		insertButton.setFocusPainted(false);
+		
 		updateButton = new JButton("Update");
+		updateButton.setBackground(Color.pink);
+		updateButton.setForeground(Color.WHITE);
+		updateButton.setFocusPainted(false);
+		
 		removeButton = new JButton("Remove");
+		removeButton.setBackground(Color.pink);
+		removeButton.setForeground(Color.WHITE);
+		removeButton.setFocusPainted(false);
+		
 		buttonPanel = new JPanel(new GridLayout(16, 1, 10, 20));
 		buttonPanel.setBackground(Color.white);
-
+		
+		
 		
 		displayPanel.add(displayTextPanel);
 		displayPanel.add(buttonPanel);
@@ -99,6 +123,7 @@ public class DBGUI extends JFrame {
 		buttonPanel.add(removeButton);
 		
 				
+		
 		mainPanel.add(searchPanel);
 		mainPanel.add(displayPanel);
 		frame.add(mainPanel);
