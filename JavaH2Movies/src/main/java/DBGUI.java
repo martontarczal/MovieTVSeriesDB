@@ -9,7 +9,6 @@ public class DBGUI extends JFrame {
 	private static JPanel mainPanel;
 	
 	private static JPanel searchPanel;
-	private static JLabel mainLabel;
 	private static JButton b1, b2, b3;
 	private static JTextField searchtf;
     

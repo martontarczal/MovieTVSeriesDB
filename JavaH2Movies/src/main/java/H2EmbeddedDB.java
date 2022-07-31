@@ -8,8 +8,8 @@ public class H2EmbeddedDB {
 //		movieins.insertNewMovie();
 
 		// following object can read all movies in DB
-//		H2ReadMovies movieread = new H2ReadMovies();
-//		movieread.readMovies();
+		H2ReadMovies movieread = new H2ReadMovies();
+		movieread.readMovies();
 
 		// following object can delete an existing movie in the DB
 //		H2DeleteMovie moviedel = new H2DeleteMovie();

@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class H2ReadMovies {
 	public void readMovies() throws ClassNotFoundException, SQLException {	
-		String inputSearch = "'";
+		String inputSearch = "";
 //		inputSearch = inputSearch.replace("%", "\\%");
 //		inputSearch = inputSearch.replace("_", "\\_");
 //		inputSearch = inputSearch.replace(" ", "\\ ");

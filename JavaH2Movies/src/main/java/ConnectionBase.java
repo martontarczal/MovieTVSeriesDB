@@ -9,7 +9,8 @@ public class ConnectionBase {
 	
 	public static Connection getConnection()throws ClassNotFoundException,SQLException
     {
-		String jdbcURL = "jdbc:h2:/home/frenzy/eclipse-workspace/JavaH2Movies/urlfile";
+//		String jdbcURL = "jdbc:h2:/home/frenzy/eclipse-workspace/JavaH2Movies/urlfile";	//for local
+		String jdbcURL = "jdbc:h2:/home/frenzy/git/MovieTVSeriesDB//JavaH2Movies/urlfile";	//for git (new local)
 		String jdbcUsername = "sa";
 		String jdbcPassword = "1234";
 		
