@@ -1,33 +1,53 @@
 import java.awt.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class DBGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private static final Color PURPLE = new Color(102,0,153);
 
+	//main frame & panel
 	private static JFrame frame;
 	private static JPanel mainPanel;
 	
+	//upper panel that has the two modes (Movies & TV Series) & searching
 	private static JPanel searchPanel;
 	private static JButton b1, b2, b3;
 	private static JTextField searchtf;
     
+	//lower panel that displays search results
 	private static JPanel displayPanel;
 	private static JPanel displayTextPanel;
-	private static JTextArea displayTextArea;
-    
+
+	//right-side panel that has the buttons
 	private static JPanel buttonPanel;
 	private static JButton insertButton;
 	private static JButton updateButton;
 	private static JButton removeButton;
 	
-	//new shit
+	//scrollpane that enables usage of scrollable & selectable list of titles
     private static JScrollPane listScrollPane = new JScrollPane();
-    private static String[] stringArray = {"Testing", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff"};
-    private static JList rowList = new JList(stringArray);
+    
+    private static ArrayList<String> arraylistToConvert = new ArrayList<String>();
+//    private static String[] stringArray = {"Testing", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff", "This", "Stuff"};
+    private static String[] convertedString;
 
 	
-	public void guiStart() {
+	public void guiStart() throws ClassNotFoundException, SQLException {
+		//This should probably be in the GUI functionality class
+		H2ReadMovies movieread = new H2ReadMovies();
+		arraylistToConvert = movieread.readMovies();
+		
+        convertedString = new String[arraylistToConvert.size()];
+        for (int i = 0; i < arraylistToConvert.size(); i++) {
+        	convertedString[i] = arraylistToConvert.get(i);
+        }
+        JList rowList = new JList(convertedString);
+		//GUI Functionality stuff ends here!
+        
+        
+		
 		frame = new JFrame("My Movie & TV Series Database");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1500, 800);
@@ -80,16 +100,6 @@ public class DBGUI extends JFrame {
 		displayTextPanel.setMaximumSize(new Dimension(1405, 764));
 
 		
-//		displayTextArea = new JTextArea("Some text bullshit\nSome more text bullshit.");
-//		displayTextArea.setEditable(false);
-//		displayTextArea.setLineWrap(true);
-//		displayTextArea.setWrapStyleWord(true);
-//		displayTextArea.setPreferredSize(new Dimension(1405, 715));
-//		displayTextArea.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, PURPLE));
-//		
-//		displayTextPanel.add(displayTextArea);
-		
-		//displayTextArea replaced with selectable string array list
 		rowList.setVisibleRowCount(2);
         listScrollPane.setViewportView(rowList);
         displayTextPanel.setLayout(new BorderLayout());

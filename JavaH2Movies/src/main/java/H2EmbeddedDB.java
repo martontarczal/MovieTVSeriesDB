@@ -9,8 +9,8 @@ public class H2EmbeddedDB {
 
 		
 		// following object can read all movies in DB
-		H2ReadMovies movieread = new H2ReadMovies();
-		movieread.readMovies();
+//		H2ReadMovies movieread = new H2ReadMovies();
+//		movieread.readMovies();
 
 		
 		// following object can delete an existing movie in the DB
@@ -24,7 +24,7 @@ public class H2EmbeddedDB {
 		
 		
 		// following object starts the GUI of the Movie/Tv series DB
-//		DBGUI guiBegin = new DBGUI();
-//		guiBegin.guiStart();
+		DBGUI guiBegin = new DBGUI();
+		guiBegin.guiStart();
 	}
 }

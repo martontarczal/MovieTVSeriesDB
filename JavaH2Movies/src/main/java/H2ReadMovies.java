@@ -2,10 +2,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class H2ReadMovies {
-	public void readMovies() throws ClassNotFoundException, SQLException {	
-		String inputSearch = "";
+	public ArrayList<String> readMovies() throws ClassNotFoundException, SQLException {	
+		String inputSearch = "re";
+		ArrayList<String> outArray = new ArrayList<String>();
 //		inputSearch = inputSearch.replace("%", "\\%");
 //		inputSearch = inputSearch.replace("_", "\\_");
 //		inputSearch = inputSearch.replace(" ", "\\ ");
@@ -26,15 +28,20 @@ public class H2ReadMovies {
 		ResultSet rs = ps.executeQuery();
 		
 		while (rs.next()) {
-            int id = rs.getInt("id");
-            String title = rs.getString("title");
-            String releaseyear = rs.getString("releaseyear");
-            String descriptiontest = rs.getString("descriptiontest");
-            System.out.println(id + ", " + title + ", " + releaseyear + ", " + descriptiontest);
-            
-            //cont. from here with String[] shit!
-        }
+			int id = rs.getInt("id");
+			String title = rs.getString("title");
+			String releaseyear = rs.getString("releaseyear");
+			String descriptiontest = rs.getString("descriptiontest");
+			System.out.println(id + ", " + title + ", " + releaseyear + ", " + descriptiontest);
 
+			outArray.add(title);
+		}
+		
+		for (int i = 0; i < outArray.size(); i++) {
+			System.out.print(outArray.get(i) + "\n");
+		}
+		
+		return outArray;
 	}
 
 	public String validateInput(String inputParameter) {
