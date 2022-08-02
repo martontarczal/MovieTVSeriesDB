@@ -38,8 +38,8 @@ public class DBGUI extends JFrame {
 	
 	public void guiStart() throws ClassNotFoundException, SQLException {
 		//This should probably be in the GUI functionality class
-		H2ReadMovies movieread = new H2ReadMovies();
-		arraylistToConvert = movieread.readMovies();
+//		H2ReadMovies movieread = new H2ReadMovies();
+//		arraylistToConvert = movieread.readMovies();
 		
         convertedString = new String[arraylistToConvert.size()];
         for (int i = 0; i < arraylistToConvert.size(); i++) {
@@ -49,7 +49,8 @@ public class DBGUI extends JFrame {
 		//GUI Functionality stuff ends here!
         
         
-		
+        
+        
 		frame = new JFrame("My Movie & TV Series Database");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1500, 800);
@@ -153,26 +154,42 @@ public class DBGUI extends JFrame {
 		frame.setVisible(true);
 	}
 
-	private class ButtonClickListener implements ActionListener {
+	private static class ButtonClickListener implements ActionListener {
+		public static String[] newstring;	//dunno yet
+		
 		public void actionPerformed(ActionEvent e) {
 			String command = e.getActionCommand();
 
 			if (command.equals("Movies")) {
-//				statusLabel.setText("Ok Button clicked.");
 				System.out.println("movies btn clicked");
 			} else if (command.equals("TV Series")) {
-//				statusLabel.setText("Submit Button clicked.");
 				System.out.println("tv series btn clicked");
 			} else if (command.equals("Search")) {
 				System.out.println("search btn clicked");
-			} else if (command.equals("Insert")){
-//				statusLabel.setText("Cancel Button clicked.");
+				
+				H2ReadMovies movieread = new H2ReadMovies();
+				try {
+					arraylistToConvert = movieread.readMovies();
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+//				convertedString = new String[arraylistToConvert.size()];
+//		        for (int i = 0; i < arraylistToConvert.size(); i++) {
+//		        	convertedString[i] = arraylistToConvert.get(i);
+//		        }
+				
+//				newstring = new String[arraylistToConvert.size()];
+//		        for (int i = 0; i < arraylistToConvert.size(); i++) {
+//		        	newstring[i] = arraylistToConvert.get(i);
+//		        }
+				
+			} else if (command.equals("Insert")) {
 				System.out.println("insert btn clicked");
-			} else if (command.equals("Update")){
-//				statusLabel.setText("Cancel Button clicked.");
+			} else if (command.equals("Update")) {
 				System.out.println("update btn clicked");
-			} else if (command.equals("Remove")){
-//				statusLabel.setText("Cancel Button clicked.");
+			} else if (command.equals("Remove")) {
 				System.out.println("remove btn clicked");
 			}
 		}
