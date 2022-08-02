@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -61,16 +63,22 @@ public class DBGUI extends JFrame {
 		b1.setBackground(PURPLE);
 		b1.setForeground(Color.WHITE);
 		b1.setFocusPainted(false);
+		b1.setActionCommand("Movies");
+		b1.addActionListener(new ButtonClickListener());
 		
 		b2 = new JButton("TV Series");
 		b2.setBackground(PURPLE);
 		b2.setForeground(Color.WHITE);
 		b2.setFocusPainted(false);
+		b2.setActionCommand("TV Series");
+		b2.addActionListener(new ButtonClickListener());
 		
 		b3 = new JButton("Search");
 		b3.setBackground(Color.pink);
 		b3.setForeground(Color.WHITE);
 		b3.setFocusPainted(false);
+		b3.setActionCommand("Search");
+		b3.addActionListener(new ButtonClickListener());
 		
 		searchtf = new JTextField("Search...");
 		searchtf.setPreferredSize(new Dimension(450, 26));
@@ -109,16 +117,22 @@ public class DBGUI extends JFrame {
 		insertButton.setBackground(Color.pink);
 		insertButton.setForeground(Color.WHITE);
 		insertButton.setFocusPainted(false);
+		insertButton.setActionCommand("Insert");
+		insertButton.addActionListener(new ButtonClickListener());
 		
 		updateButton = new JButton("Update");
 		updateButton.setBackground(Color.pink);
 		updateButton.setForeground(Color.WHITE);
 		updateButton.setFocusPainted(false);
+		updateButton.setActionCommand("Update");
+		updateButton.addActionListener(new ButtonClickListener());
 		
 		removeButton = new JButton("Remove");
 		removeButton.setBackground(Color.pink);
 		removeButton.setForeground(Color.WHITE);
 		removeButton.setFocusPainted(false);
+		removeButton.setActionCommand("Remove");
+		removeButton.addActionListener(new ButtonClickListener());
 		
 		buttonPanel = new JPanel(new GridLayout(16, 1, 10, 20));
 		buttonPanel.setBackground(Color.white);
@@ -137,5 +151,30 @@ public class DBGUI extends JFrame {
 		mainPanel.add(displayPanel);
 		frame.add(mainPanel);
 		frame.setVisible(true);
+	}
+
+	private class ButtonClickListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			String command = e.getActionCommand();
+
+			if (command.equals("Movies")) {
+//				statusLabel.setText("Ok Button clicked.");
+				System.out.println("movies btn clicked");
+			} else if (command.equals("TV Series")) {
+//				statusLabel.setText("Submit Button clicked.");
+				System.out.println("tv series btn clicked");
+			} else if (command.equals("Search")) {
+				System.out.println("search btn clicked");
+			} else if (command.equals("Insert")){
+//				statusLabel.setText("Cancel Button clicked.");
+				System.out.println("insert btn clicked");
+			} else if (command.equals("Update")){
+//				statusLabel.setText("Cancel Button clicked.");
+				System.out.println("update btn clicked");
+			} else if (command.equals("Remove")){
+//				statusLabel.setText("Cancel Button clicked.");
+				System.out.println("remove btn clicked");
+			}
+		}
 	}
 }
