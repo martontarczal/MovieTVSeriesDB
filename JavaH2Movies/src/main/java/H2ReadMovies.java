@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class H2ReadMovies {
-	public ArrayList<String> readMovies() throws ClassNotFoundException, SQLException {	
-		String inputSearch = "re";
+	public ArrayList<String> readMovies(String inputSearch) throws ClassNotFoundException, SQLException {	
+//		String inputSearch = "re";
 		ArrayList<String> outArray = new ArrayList<String>();
 //		inputSearch = inputSearch.replace("%", "\\%");
 //		inputSearch = inputSearch.replace("_", "\\_");
