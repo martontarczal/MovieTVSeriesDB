@@ -49,7 +49,7 @@ public class DBGUI extends JFrame {
 		
 		
 		
-		//GUI test beginning:
+		//Reads ALL movies and shows them in JList
 		String everything = "";
 		H2ReadMovies movieread = new H2ReadMovies();
 		arraylistToConvert = movieread.readMovies(everything);
@@ -58,8 +58,8 @@ public class DBGUI extends JFrame {
 			convertedString[i] = arraylistToConvert.get(i);
 		}
 		JList rowList = new JList(convertedString);
-		//GUI test ending here!!
 
+		
 		frame = new JFrame("My Movie & TV Series Database");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1500, 800);
@@ -93,7 +93,8 @@ public class DBGUI extends JFrame {
 		b3.addActionListener(new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String input = "re";
+//			String input = "re";
+			String input = searchtf.getText();
 			
 			H2ReadMovies movieread = new H2ReadMovies();
 			try {
@@ -115,7 +116,7 @@ public class DBGUI extends JFrame {
 		}
 	});
 
-		searchtf = new JTextField("Search...");
+		searchtf = new JTextField();
 		searchtf.setPreferredSize(new Dimension(450, 26));
 
 		searchPanel.add(b1);
