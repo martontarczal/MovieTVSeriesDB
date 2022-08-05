@@ -148,8 +148,39 @@ public class DBGUI extends JFrame {
 		insertButton.setBackground(Color.pink);
 		insertButton.setForeground(Color.WHITE);
 		insertButton.setFocusPainted(false);
-//		insertButton.setActionCommand("Insert");
-//		insertButton.addActionListener(new ButtonClickListener());
+		insertButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setEnabled(false);
+				JFrame insertFrame = new JFrame("Insert a new title");
+				JLabel titleLabel = new JLabel("Title:");
+				JLabel yearLabel = new JLabel("Year:");
+				JLabel descLabel = new JLabel("Description:");
+				
+				insertFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				insertFrame.setSize(200, 200);
+				insertFrame.setLocationRelativeTo(null);
+				insertFrame.setVisible(true);
+				insertFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+				    @Override
+				    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				    	int res = JOptionPane.showOptionDialog(new JFrame(), "Are you sure you want to close this window?","Close Window?",
+				    	         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+				    	         new Object[] { "Yes", "No" }, JOptionPane.YES_OPTION);
+				    	
+				    	if (res == JOptionPane.YES_OPTION) {
+//				            System.out.println("Selected Yes!");
+				            insertFrame.dispose();
+				            frame.setEnabled(true);
+				         } else if (res == JOptionPane.NO_OPTION) {
+//				            System.out.println("Selected No!");
+				         } else if (res == JOptionPane.CLOSED_OPTION) {
+//				            System.out.println("Window closed without selecting!");
+				         }
+				    }
+				});
+			}
+		});
 
 		updateButton = new JButton("Update");
 		updateButton.setBackground(Color.pink);
