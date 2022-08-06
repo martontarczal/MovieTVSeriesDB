@@ -17,7 +17,7 @@ public class DBGUI extends JFrame {
 	private static JPanel searchPanel;
 	private static JButton b1, b2, b3;
 	private static JTextField searchtf;
-
+	
 	// lower panel that displays search results
 	private static JPanel displayPanel;
 	private static JPanel displayTextPanel;
@@ -60,10 +60,13 @@ public class DBGUI extends JFrame {
 		JList rowList = new JList(convertedString);
 
 		
+		//main frame starts here:
 		frame = new JFrame("My Movie & TV Series Database");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.setSize(1500, 800);
 		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
+
 
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -128,7 +131,8 @@ public class DBGUI extends JFrame {
 		searchPanel.setPreferredSize(new Dimension(1500, 36));
 		searchPanel.setMaximumSize(new Dimension(1500, 36));
 		searchPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, PURPLE));
-
+		
+		
 		// displayPanel begins here:
 		displayPanel = new JPanel();
 		displayPanel.setBackground(Color.white);
@@ -143,7 +147,8 @@ public class DBGUI extends JFrame {
 		listScrollPane.setViewportView(rowList);
 		displayTextPanel.setLayout(new BorderLayout());
 		displayTextPanel.add(listScrollPane);
-
+		
+		
 		insertButton = new JButton("Insert");
 		insertButton.setBackground(Color.pink);
 		insertButton.setForeground(Color.WHITE);
@@ -153,12 +158,39 @@ public class DBGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				frame.setEnabled(false);
 				JFrame insertFrame = new JFrame("Insert a new title");
-				JLabel titleLabel = new JLabel("Title:");
-				JLabel yearLabel = new JLabel("Year:");
-				JLabel descLabel = new JLabel("Description:");
+				insertFrame.setSize(500, 500);
+				insertFrame.setResizable(false);
+				
+				JPanel insertPanelText = new JPanel();
+				JPanel insertPanelInput = new JPanel();
+				JPanel insertPanelButtons = new JPanel();
+				
+				JLabel titleLabel = new JLabel("Add new title:");
+				JLabel yearLabel = new JLabel("Add year of release:");
+				JLabel descLabel = new JLabel("Add description:");
+				
+				//textfields, buttons here!
+				
+				insertFrame.setLayout(new BorderLayout());
+				insertPanelText.setBackground(Color.black);
+				insertPanelText.setPreferredSize(new Dimension(250, 400));
+				insertPanelText.setMaximumSize(new Dimension(250, 400));
+				
+				insertPanelInput.setBackground(Color.red);
+				insertPanelInput.setPreferredSize(new Dimension(250, 400));
+				insertPanelInput.setMaximumSize(new Dimension(250, 400));
+				
+				insertPanelButtons.setBackground(Color.green);
+				insertPanelButtons.setPreferredSize(new Dimension(100, 100));
+				insertPanelButtons.setMaximumSize(new Dimension(100, 100));
+				
+				
+				//insertframe components + close operations:
+				insertFrame.add(insertPanelText, BorderLayout.WEST);
+				insertFrame.add(insertPanelInput, BorderLayout.EAST);
+				insertFrame.add(insertPanelButtons, BorderLayout.SOUTH);
 				
 				insertFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-				insertFrame.setSize(200, 200);
 				insertFrame.setLocationRelativeTo(null);
 				insertFrame.setVisible(true);
 				insertFrame.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -181,6 +213,7 @@ public class DBGUI extends JFrame {
 				});
 			}
 		});
+		
 
 		updateButton = new JButton("Update");
 		updateButton.setBackground(Color.pink);
@@ -208,6 +241,25 @@ public class DBGUI extends JFrame {
 		mainPanel.add(searchPanel);
 		mainPanel.add(displayPanel);
 		frame.add(mainPanel);
+		
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		    	int res = JOptionPane.showOptionDialog(new JFrame(), "Are you sure you want to close this window?","Close Window?",
+		    	         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+		    	         new Object[] { "Yes", "No" }, JOptionPane.YES_OPTION);
+		    	
+		    	if (res == JOptionPane.YES_OPTION) {
+//		            System.out.println("Selected Yes!");
+		            System.exit(0);
+		         } else if (res == JOptionPane.NO_OPTION) {
+//		            System.out.println("Selected No!");
+		         } else if (res == JOptionPane.CLOSED_OPTION) {
+//		            System.out.println("Window closed without selecting!");
+		         }
+		    }
+		});
+		
 		frame.setVisible(true);
 	}
 
