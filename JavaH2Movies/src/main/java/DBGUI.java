@@ -161,28 +161,73 @@ public class DBGUI extends JFrame {
 				insertFrame.setSize(500, 500);
 				insertFrame.setResizable(false);
 				
-				JPanel insertPanelText = new JPanel();
-				JPanel insertPanelInput = new JPanel();
-				JPanel insertPanelButtons = new JPanel();
+				JPanel insertPanelText = new JPanel(new GridLayout(3, 1));
+				insertPanelText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+				JPanel insertPanelInput = new JPanel(new GridBagLayout());
+				insertPanelInput.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+				JPanel insertPanelButtons = new JPanel(new GridBagLayout());
+				insertPanelButtons.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+				GridBagConstraints gbc = new GridBagConstraints();
 				
-				JLabel titleLabel = new JLabel("Add new title:");
-				JLabel yearLabel = new JLabel("Add year of release:");
-				JLabel descLabel = new JLabel("Add description:");
+				JLabel titleLabel = new JLabel("Add new title:", SwingConstants.CENTER/*RIGHT*/);
+				JLabel yearLabel = new JLabel("Add year of release:", SwingConstants.CENTER/*RIGHT*/);
+				JLabel descLabel = new JLabel("Add description:", SwingConstants.CENTER/*RIGHT*/);
 				
 				//textfields, buttons here!
+				JTextField newTitleField = new JTextField(SwingConstants.CENTER);
+				newTitleField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+				JTextField newYearField = new JTextField(SwingConstants.CENTER);
+				newYearField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+				JTextField newDescField = new JTextField(SwingConstants.CENTER);
+				newDescField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 				
+				JButton insertOK = new JButton("OK");
+				insertOK.setPreferredSize(new Dimension(100, 25));
+				insertOK.setMaximumSize(new Dimension(100, 25));
+				JButton insertCancel = new JButton("Cancel");
+				insertCancel.setPreferredSize(new Dimension(100, 25));
+				insertCancel.setMaximumSize(new Dimension(100, 25));
+				
+				
+				//Insert Panel settings and components added
 				insertFrame.setLayout(new BorderLayout());
-				insertPanelText.setBackground(Color.black);
-				insertPanelText.setPreferredSize(new Dimension(250, 400));
-				insertPanelText.setMaximumSize(new Dimension(250, 400));
+				insertPanelText.setBackground(Color.white);
+				insertPanelText.setPreferredSize(new Dimension(175, 400));
+				insertPanelText.setMaximumSize(new Dimension(175, 400));
 				
-				insertPanelInput.setBackground(Color.red);
-				insertPanelInput.setPreferredSize(new Dimension(250, 400));
-				insertPanelInput.setMaximumSize(new Dimension(250, 400));
+				insertPanelText.add(titleLabel);
+				insertPanelText.add(yearLabel);
+				insertPanelText.add(descLabel);
 				
-				insertPanelButtons.setBackground(Color.green);
+				insertPanelInput.setBackground(Color.white);
+				insertPanelInput.setPreferredSize(new Dimension(325, 400));
+				insertPanelInput.setMaximumSize(new Dimension(325, 400));
+				
+				
+				gbc.ipadx = 300;
+				gbc.insets = new Insets(0,0,100,0);;
+				gbc.gridx = 0;
+				gbc.gridy = 0;
+				insertPanelInput.add(newTitleField, gbc);
+				gbc.insets = new Insets(0,0,0,0);;
+				gbc.gridx = 0;
+				gbc.gridy = 1;
+				insertPanelInput.add(newYearField, gbc);
+				gbc.insets = new Insets(100,0,0,0);;
+				gbc.gridx = 0;
+				gbc.gridy = 2;
+				insertPanelInput.add(newDescField, gbc);
+				
+				insertPanelButtons.setBackground(Color.white);
 				insertPanelButtons.setPreferredSize(new Dimension(100, 100));
 				insertPanelButtons.setMaximumSize(new Dimension(100, 100));
+				
+				gbc.ipadx = 0;
+				gbc.gridx = 0;
+				gbc.gridy = 0;
+				gbc.insets = new Insets(0,0,0,50);;
+				insertPanelButtons.add(insertOK, gbc);
+				insertPanelButtons.add(insertCancel);
 				
 				
 				//insertframe components + close operations:
