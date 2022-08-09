@@ -188,6 +188,63 @@ public class DBGUI extends JFrame {
 				insertCancel.setPreferredSize(new Dimension(100, 25));
 				insertCancel.setMaximumSize(new Dimension(100, 25));
 				
+				//insertbuttons actionlistener stuff:
+				insertOK.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {						
+						String newTitleText = newTitleField.getText();
+						String newYearText = newYearField.getText();
+						String newDescText = newDescField.getText();
+						
+						if(newTitleText.isEmpty()) {
+							String message = "Title cannot be left empty.";
+							JOptionPane.showMessageDialog(new JFrame(), message, "Error", JOptionPane.ERROR_MESSAGE);
+						}
+						else {
+							String newTitleTextValidated = inputValidate(newTitleText);
+							String newYearTextValidated = inputValidate(newYearText);
+							String newDescTextValidated = inputValidate(newDescText);
+							
+							System.out.println(newTitleTextValidated);
+							System.out.println(newYearTextValidated);
+							System.out.println(newDescTextValidated);
+							
+							//check if title already exists here
+							//ONLY THEN add it to DB!
+							
+							
+							H2InsertMovie movieinsert = new H2InsertMovie();
+							//uncomment when Inserting is FULLY functional!
+//							try {
+//								movieinsert.insertNewMovie(newTitleTextValidated, newYearTextValidated, newDescTextValidated);
+//							} catch (ClassNotFoundException | SQLException e1) {
+//								e1.printStackTrace();
+//							}
+							insertFrame.dispose();
+							frame.setEnabled(true);
+						}
+					}
+				});
+				
+				
+				insertCancel.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						int res = JOptionPane.showOptionDialog(new JFrame(), "Are you sure you want to close this window?","Close Window?",
+				    	         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+				    	         new Object[] { "Yes", "No" }, JOptionPane.YES_OPTION);
+				    	
+				    	if (res == JOptionPane.YES_OPTION) {
+				            insertFrame.dispose();
+				            frame.setEnabled(true);
+				         } else if (res == JOptionPane.NO_OPTION) {
+				        	 //close warning, do nothing
+				         } else if (res == JOptionPane.CLOSED_OPTION) {
+				        	//close warning, do nothing
+				         }
+					}
+				});
+				
 				
 				//Insert Panel settings and components added
 				insertFrame.setLayout(new BorderLayout());
@@ -246,34 +303,33 @@ public class DBGUI extends JFrame {
 				    	         new Object[] { "Yes", "No" }, JOptionPane.YES_OPTION);
 				    	
 				    	if (res == JOptionPane.YES_OPTION) {
-//				            System.out.println("Selected Yes!");
 				            insertFrame.dispose();
 				            frame.setEnabled(true);
 				         } else if (res == JOptionPane.NO_OPTION) {
-//				            System.out.println("Selected No!");
+				        	//close warning, do nothing
 				         } else if (res == JOptionPane.CLOSED_OPTION) {
-//				            System.out.println("Window closed without selecting!");
+				        	//close warning, do nothing
 				         }
 				    }
 				});
 			}
 		});
 		
-
+		//UPDATE Button:
 		updateButton = new JButton("Update");
 		updateButton.setBackground(Color.pink);
 		updateButton.setForeground(Color.WHITE);
 		updateButton.setFocusPainted(false);
-//		updateButton.setActionCommand("Update");
-//		updateButton.addActionListener(new ButtonClickListener());
-
+		
+		
+		//REMOVE Button:
 		removeButton = new JButton("Remove");
 		removeButton.setBackground(Color.pink);
 		removeButton.setForeground(Color.WHITE);
 		removeButton.setFocusPainted(false);
-//		removeButton.setActionCommand("Remove");
-//		removeButton.addActionListener(new ButtonClickListener());
-
+		
+		
+		
 		buttonPanel = new JPanel(new GridLayout(16, 1, 10, 20));
 		buttonPanel.setBackground(Color.white);
 
@@ -295,53 +351,23 @@ public class DBGUI extends JFrame {
 		    	         new Object[] { "Yes", "No" }, JOptionPane.YES_OPTION);
 		    	
 		    	if (res == JOptionPane.YES_OPTION) {
-//		            System.out.println("Selected Yes!");
-		            System.exit(0);
+		    		System.exit(0);
 		         } else if (res == JOptionPane.NO_OPTION) {
-//		            System.out.println("Selected No!");
+		        	//close warning, do nothing
 		         } else if (res == JOptionPane.CLOSED_OPTION) {
-//		            System.out.println("Window closed without selecting!");
+		        	//close warning, do nothing
 		         }
 		    }
 		});
 		
 		frame.setVisible(true);
 	}
-
-//	public void actionPerformed(ActionEvent e) {
-//		String command = e.getActionCommand();
-//
-//		if (command.equals("Movies")) {
-//			System.out.println("movies btn clicked");
-//		} else if (command.equals("TV Series")) {
-//			System.out.println("tv series btn clicked");
-//		} else if (command.equals("Search")) {
-//			System.out.println("search btn clicked");
-//
-//			H2ReadMovies movieread = new H2ReadMovies();
-//			try {
-//				arraylistToConvert = movieread.readMovies();
-//			} catch (ClassNotFoundException | SQLException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
-//
-//			// convertedString = new String[arraylistToConvert.size()];
-//			// for (int i = 0; i < arraylistToConvert.size(); i++) {
-//			// convertedString[i] = arraylistToConvert.get(i);
-//			// }
-//
-//			// newstring = new String[arraylistToConvert.size()];
-//			// for (int i = 0; i < arraylistToConvert.size(); i++) {
-//			// newstring[i] = arraylistToConvert.get(i);
-//			// }
-//
-//		} else if (command.equals("Insert")) {
-//			System.out.println("insert btn clicked");
-//		} else if (command.equals("Update")) {
-//			System.out.println("update btn clicked");
-//		} else if (command.equals("Remove")) {
-//			System.out.println("remove btn clicked");
-//		}
-//	}
+	
+	//input validation for Insert:
+	private String inputValidate(String inputStr) {
+		inputStr = inputStr.replace("\"","\\\"");
+		inputStr = inputStr.replace("\\","\\\\");
+		
+		return inputStr;
+	}
 }
