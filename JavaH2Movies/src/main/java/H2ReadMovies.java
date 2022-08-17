@@ -17,7 +17,7 @@ public class H2ReadMovies {
 		
 		String inputForFunction = "%" + inputSearch + "%";
 		
-		String movieReadAllString = String.format("SELECT DISTINCT * FROM movies WHERE title iLIKE '%s' OR ReleaseYear iLIKE '%s' OR DescriptionTest iLIKE '%s' ORDER BY title", inputForFunction, inputForFunction, inputForFunction);
+		String movieReadAllString = String.format("SELECT  * FROM movies WHERE title iLIKE '%s' OR ReleaseYear iLIKE '%s' OR DescriptionTest iLIKE '%s' ORDER BY LCASE(title)", inputForFunction, inputForFunction, inputForFunction);
 		
 		System.out.println(movieReadAllString);
 

@@ -3,6 +3,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.swing.*;
 
 public class DBGUI extends JFrame {
@@ -58,6 +61,7 @@ public class DBGUI extends JFrame {
 			convertedString[i] = arraylistToConvert.get(i);
 		}
 		JList rowList = new JList(convertedString);
+		rowList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		
 		//main frame starts here:
@@ -209,18 +213,55 @@ public class DBGUI extends JFrame {
 							System.out.println(newYearTextValidated);
 							System.out.println(newDescTextValidated);
 							
-							//check if title already exists here
-							//ONLY THEN add it to DB!
+							//remove next line if ready
+//							H2InsertMovie movieinsert = new H2InsertMovie();
+							
+							//check if year is empty, if yes, check if its valid
+							if(newYearTextValidated.isEmpty()) {
+								insertTitleFinal(newTitleTextValidated, newYearTextValidated, newDescTextValidated);
+								insertFrame.dispose();	//frame should only dispose if title doesnt exist yet
+							}
+							else {
+								Pattern pattern = Pattern.compile("^(19|20)[0-9][0-9]$", Pattern.CASE_INSENSITIVE);
+							    
+							    Matcher matcher = pattern.matcher(newYearTextValidated);
+							    
+							    boolean matchFound = matcher.find();
+							    
+							    if(matchFound) {
+//							      System.out.println("DATE MATCHES");
+							      insertTitleFinal(newTitleTextValidated, newYearTextValidated, newDescTextValidated);
+							      insertFrame.dispose();	//frame should only dispose if title doesnt exist yet
+							    } else {
+//							      System.out.println("date does not match");
+							    	String message = "Year is in the wrong format.";
+									JOptionPane.showMessageDialog(new JFrame(), message, "Error", JOptionPane.ERROR_MESSAGE);
+							    }
+							}
 							
 							
-							H2InsertMovie movieinsert = new H2InsertMovie();
-							//uncomment when Inserting is FULLY functional!
-//							try {
-//								movieinsert.insertNewMovie(newTitleTextValidated, newYearTextValidated, newDescTextValidated);
-//							} catch (ClassNotFoundException | SQLException e1) {
-//								e1.printStackTrace();
-//							}
-							insertFrame.dispose();
+							//remove following if ready
+							/*
+							//check for duplicate titles:
+							try {
+								boolean insertCheckRes = movieinsert.checkDuplicate(newTitleTextValidated);
+								
+								if(insertCheckRes == true) {
+									String message = "Title already exists.";
+									JOptionPane.showMessageDialog(new JFrame(), message, "Error", JOptionPane.ERROR_MESSAGE);
+								}
+								else {
+									//title doesnt exist yet, add to DB
+									System.out.println("title doesnt exist yet, added to DB");
+									
+//									movieinsert.insertNewMovie(newTitleTextValidated, newYearTextValidated, newDescTextValidated);
+									
+									insertFrame.dispose();	//frame should only dispose if title doesnt exist yet
+								}
+							} catch (ClassNotFoundException | SQLException e1) {
+								e1.printStackTrace();
+							}
+							*/
 							frame.setEnabled(true);
 						}
 					}
@@ -327,7 +368,7 @@ public class DBGUI extends JFrame {
 		removeButton.setBackground(Color.pink);
 		removeButton.setForeground(Color.WHITE);
 		removeButton.setFocusPainted(false);
-		
+		//cont. from here with remove button stuff!
 		
 		
 		buttonPanel = new JPanel(new GridLayout(16, 1, 10, 20));
@@ -369,5 +410,29 @@ public class DBGUI extends JFrame {
 		inputStr = inputStr.replace("\\","\\\\");
 		
 		return inputStr;
+	}
+//	private void insertTitleFinal(String inputTitleStr, String inputYearStr, String inputDescStr) {
+	private void insertTitleFinal(String newTitleTextValidated, String newYearTextValidated, String newDescTextValidated) {
+		H2InsertMovie movieinsert = new H2InsertMovie();
+		
+		try {
+			boolean insertCheckRes = movieinsert.checkDuplicate(newTitleTextValidated);
+			
+			if(insertCheckRes == true) {
+				String message = "Title already exists.";
+				JOptionPane.showMessageDialog(new JFrame(), message, "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			else {
+				//title doesnt exist yet, add to DB
+				System.out.println("title doesnt exist yet, added to DB");
+				
+//				movieinsert.insertNewMovie(newTitleTextValidated, newYearTextValidated, newDescTextValidated);
+				
+				//remove following 1 line if ready
+//				insertFrame.dispose();	//frame should only dispose if title doesnt exist yet
+			}
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+		}
 	}
 }

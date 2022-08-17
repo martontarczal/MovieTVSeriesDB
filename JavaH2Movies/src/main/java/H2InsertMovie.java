@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class H2InsertMovie {
@@ -22,21 +23,36 @@ public class H2InsertMovie {
 
 		PreparedStatement ps = connvariable.prepareStatement(movieInsertString);
 		ps.executeUpdate();
+	}
+	
+	public boolean checkDuplicate(String inputParameter) throws SQLException, ClassNotFoundException {
+		inputParameter = inputParameter.replace("%", "\\%");
+		inputParameter = inputParameter.replace("_", "\\_");
+		inputParameter = inputParameter.replace(" ", "\\ ");
+		inputParameter = inputParameter.replaceAll("'", "''");
+		
+		String movieCheckDupeString = String.format("SELECT 1 FROM movies WHERE title iLIKE '%s'", inputParameter);
+		
+		Connection connvariable;
+		connvariable = ConnectionBase.getConnection();
 
-		/*
-		 * try { Connection connection = H2JDBCUtils.getConnection(); } catch
-		 * (SQLException e) { e.printStackTrace(); }
-		 * 
-		 * String sql = "INSERT INTO movies (title) values ('Predator');";
-		 * 
-		 * Statement statement = connection.createStatement(); int rows =
-		 * statement.executeUpdate(sql);
-		 * 
-		 * if (rows > 0) { System.out.println("Row inserted."); }
-		 * 
-		 * sql = "SELECT * FROM movies";
-		 * 
-		 * ResultSet resultSet = statement.executeQuery(sql);
-		 */
+		PreparedStatement ps = connvariable.prepareStatement(movieCheckDupeString);
+		
+		ResultSet rs = ps.executeQuery();
+		
+		//counts number of rows in resultset to see if title exists or not
+		int count = 0;
+		while (rs.next()) {
+		    ++count;
+		}
+
+		if (count == 0) {
+//		    System.out.println("No records found");
+		    return false;
+		}
+		else {
+//			System.out.println(count);
+			return true;
+		}
 	}
 }
