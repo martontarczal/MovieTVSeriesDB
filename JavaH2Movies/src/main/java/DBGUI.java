@@ -86,12 +86,19 @@ public class DBGUI extends JFrame {
 				//code here
 			}
 		});
-
+		
+		
 		b2 = new JButton("TV Series");
 		b2.setBackground(PURPLE);
 		b2.setForeground(Color.WHITE);
 		b2.setFocusPainted(false);
-//		b2.addActionListener(new ButtonClickListener());
+		b2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//code here
+			}
+		});
+		
 
 		b3 = new JButton("Search");
 		b3.setBackground(Color.pink);
@@ -220,6 +227,19 @@ public class DBGUI extends JFrame {
 							if(newYearTextValidated.isEmpty()) {
 								insertTitleFinal(newTitleTextValidated, newYearTextValidated, newDescTextValidated);
 								insertFrame.dispose();	//frame should only dispose if title doesnt exist yet
+								
+								String input = "";
+								H2ReadMovies movieread = new H2ReadMovies();
+								try {
+									arraylistToConvert = movieread.readMovies(input);
+								} catch (ClassNotFoundException | SQLException e1) {
+									e1.printStackTrace();
+								}
+								convertedString = new String[arraylistToConvert.size()];
+								for (int i = 0; i < arraylistToConvert.size(); i++) {
+									convertedString[i] = arraylistToConvert.get(i);
+								}
+								rowList.setListData(convertedString);
 							}
 							else {
 								Pattern pattern = Pattern.compile("^(19|20)[0-9][0-9]$", Pattern.CASE_INSENSITIVE);
@@ -232,6 +252,19 @@ public class DBGUI extends JFrame {
 //							      System.out.println("DATE MATCHES");
 							      insertTitleFinal(newTitleTextValidated, newYearTextValidated, newDescTextValidated);
 							      insertFrame.dispose();	//frame should only dispose if title doesnt exist yet
+							      
+							      String input = "";
+									H2ReadMovies movieread = new H2ReadMovies();
+									try {
+										arraylistToConvert = movieread.readMovies(input);
+									} catch (ClassNotFoundException | SQLException e1) {
+										e1.printStackTrace();
+									}
+									convertedString = new String[arraylistToConvert.size()];
+									for (int i = 0; i < arraylistToConvert.size(); i++) {
+										convertedString[i] = arraylistToConvert.get(i);
+									}
+									rowList.setListData(convertedString);
 							    } else {
 //							      System.out.println("date does not match");
 							    	String message = "Year is in the wrong format.";
@@ -368,7 +401,53 @@ public class DBGUI extends JFrame {
 		removeButton.setBackground(Color.pink);
 		removeButton.setForeground(Color.WHITE);
 		removeButton.setFocusPainted(false);
-		//cont. from here with remove button stuff!
+		removeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(rowList.getSelectedValue() != null)
+				{
+					String jlisttext = rowList.getSelectedValue().toString();
+					
+					H2DeleteMovie movieremove = new H2DeleteMovie();
+					
+					frame.setEnabled(false);
+					int res = JOptionPane.showOptionDialog(new JFrame(), "Are you sure you want to remove this title?","Remove Title?",
+			    	         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+			    	         new Object[] { "Yes", "No" }, JOptionPane.YES_OPTION);
+			    	
+			    	if (res == JOptionPane.YES_OPTION) {
+			    		try {
+							movieremove.deleteMovie(jlisttext);
+							
+							//update JList rowList after a deletion:
+							String input = "";
+							H2ReadMovies movieread = new H2ReadMovies();
+							try {
+								arraylistToConvert = movieread.readMovies(input);
+							} catch (ClassNotFoundException | SQLException e1) {
+								e1.printStackTrace();
+							}
+							convertedString = new String[arraylistToConvert.size()];
+							for (int i = 0; i < arraylistToConvert.size(); i++) {
+								convertedString[i] = arraylistToConvert.get(i);
+							}
+							rowList.setListData(convertedString);
+							
+							
+							String message = "Title has been successfully removed.";
+							JOptionPane.showMessageDialog(new JFrame(), message, "Deletion Successful", JOptionPane.PLAIN_MESSAGE);
+						} catch (ClassNotFoundException | SQLException e1) {
+							e1.printStackTrace();
+						}
+			            frame.setEnabled(true);
+			         } else if (res == JOptionPane.NO_OPTION) {
+				            frame.setEnabled(true);
+			         } else if (res == JOptionPane.CLOSED_OPTION) {
+				            frame.setEnabled(true);
+			         }
+				}
+			}
+		});
 		
 		
 		buttonPanel = new JPanel(new GridLayout(16, 1, 10, 20));
@@ -426,7 +505,7 @@ public class DBGUI extends JFrame {
 				//title doesnt exist yet, add to DB
 				System.out.println("title doesnt exist yet, added to DB");
 				
-//				movieinsert.insertNewMovie(newTitleTextValidated, newYearTextValidated, newDescTextValidated);
+				movieinsert.insertNewMovie(newTitleTextValidated, newYearTextValidated, newDescTextValidated);
 				
 				//remove following 1 line if ready
 //				insertFrame.dispose();	//frame should only dispose if title doesnt exist yet
