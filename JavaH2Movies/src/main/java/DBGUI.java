@@ -394,6 +394,12 @@ public class DBGUI extends JFrame {
 		updateButton.setBackground(Color.pink);
 		updateButton.setForeground(Color.WHITE);
 		updateButton.setFocusPainted(false);
+		updateButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//code here
+			}
+		});
 		
 		
 		//REMOVE Button:
