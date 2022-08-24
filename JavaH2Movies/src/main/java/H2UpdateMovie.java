@@ -14,7 +14,7 @@ public class H2UpdateMovie {
 		
 		String inputID = "21";
 
-		String movieUpdateString = String.format("UPDATE movies SET title = '%s', ReleaseYear = '%s', DescriptionTest = '%s' WHERE id = %s", insertOutput1, insertOutput2, insertOutput3, inputID);
+		String movieUpdateString = String.format("UPDATE movies SET title = '%s', ReleaseYear = '%s', DescriptionTest = '%s' WHERE id = '%s'", insertOutput1, insertOutput2, insertOutput3, inputID);
 
 		System.out.println(movieUpdateString);
 

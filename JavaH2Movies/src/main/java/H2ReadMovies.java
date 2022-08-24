@@ -17,7 +17,7 @@ public class H2ReadMovies {
 		
 		String inputForFunction = "%" + inputSearch + "%";
 		
-		String movieReadAllString = String.format("SELECT  * FROM movies WHERE title iLIKE '%s' OR ReleaseYear iLIKE '%s' OR DescriptionTest iLIKE '%s' ORDER BY LCASE(title)", inputForFunction, inputForFunction, inputForFunction);
+		String movieReadAllString = String.format("SELECT * FROM movies WHERE title iLIKE '%s' OR ReleaseYear iLIKE '%s' OR DescriptionTest iLIKE '%s' ORDER BY LCASE(title)", inputForFunction, inputForFunction, inputForFunction);
 		
 		System.out.println(movieReadAllString);
 
@@ -50,5 +50,41 @@ public class H2ReadMovies {
 		inputParameter = inputParameter.replace(" ", "\\ ");
 		inputParameter = inputParameter.replaceAll("'", "''");
 		return inputParameter;
+	}
+	
+	public ArrayList<String> readMovieDetails(String titleSearch) throws ClassNotFoundException, SQLException {	
+		ArrayList<String> outArray = new ArrayList<String>();
+		
+		titleSearch = validateInput(titleSearch);
+		
+		String inputForFunction = "%" + titleSearch + "%";
+		
+		String movieDetailsString = String.format("SELECT * FROM movies WHERE title iLIKE '%s'", inputForFunction);
+		
+//		System.out.println(movieDetailsString);
+
+		Connection connvariable;
+		connvariable = ConnectionBase.getConnection();
+
+		PreparedStatement ps = connvariable.prepareStatement(movieDetailsString);
+		ResultSet rs = ps.executeQuery();
+		
+		while (rs.next()) {
+			int id = rs.getInt("id");
+			String title = rs.getString("title");
+			String releaseyear = rs.getString("releaseyear");
+			String descriptiontest = rs.getString("descriptiontest");
+//			System.out.println(id + ", " + title + ", " + releaseyear + ", " + descriptiontest);
+
+			outArray.add(title);
+			outArray.add(releaseyear);
+			outArray.add(descriptiontest);
+		}
+		
+//		for (int i = 0; i < outArray.size(); i++) {
+//			System.out.print(outArray.get(i) + "\n");
+//		}
+		
+		return outArray;
 	}
 }

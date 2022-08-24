@@ -1,6 +1,10 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -28,7 +32,7 @@ public class DBGUI extends JFrame {
 	// right-side panel that has the buttons
 	private static JPanel buttonPanel;
 	private static JButton insertButton;
-	private static JButton updateButton;
+	private static JButton editButton;
 	private static JButton removeButton;
 
 	// scrollpane that enables usage of scrollable & selectable list of titles
@@ -62,6 +66,42 @@ public class DBGUI extends JFrame {
 		}
 		JList rowList = new JList(convertedString);
 		rowList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		//mouselistener, double-click on a title displays title, year, description
+		rowList.addMouseListener(new MouseAdapter() {
+		    public void mouseClicked(MouseEvent evt) {
+		        JList list = (JList)evt.getSource();
+		        if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
+//		        	JList list = (JList)evt.getSource();	DELETE LINE
+//		            System.out.println(list.getSelectedValue());	DELETE LINE
+		            
+		            
+		        	
+//		            String input = searchtf.getText();	DELETE LINE
+		            String input = (String) list.getSelectedValue();
+					
+					H2ReadMovies moviereaddetails = new H2ReadMovies();
+					try {
+						arraylistToConvert = moviereaddetails.readMovieDetails(input);
+					} catch (ClassNotFoundException | SQLException e1) {
+						e1.printStackTrace();
+					}
+
+					convertedString = new String[arraylistToConvert.size()];
+					for (int i = 0; i < arraylistToConvert.size(); i++) {
+						convertedString[i] = arraylistToConvert.get(i);
+					}
+					
+//					rowList.setListData(convertedString);	DELETE LINE
+					
+					
+					//change this here to displaying details in new window!!!:
+					for(int i = 0; i < convertedString.length; i++) {
+						System.out.println(i + ": " + convertedString[i] + "\n");
+					}
+		        }
+		    }
+		});
 
 		
 		//main frame starts here:
@@ -132,6 +172,29 @@ public class DBGUI extends JFrame {
 
 		searchtf = new JTextField();
 		searchtf.setPreferredSize(new Dimension(450, 26));
+		searchtf.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				//if enter is pressed in the JTextField, search DB as well!
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					String input = searchtf.getText();
+
+					H2ReadMovies movieread = new H2ReadMovies();
+					try {
+						arraylistToConvert = movieread.readMovies(input);
+					} catch (ClassNotFoundException | SQLException e1) {
+						e1.printStackTrace();
+					}
+
+					convertedString = new String[arraylistToConvert.size()];
+					for (int i = 0; i < arraylistToConvert.size(); i++) {
+						convertedString[i] = arraylistToConvert.get(i);
+					}
+					
+					rowList.setListData(convertedString);
+				}
+			}
+		});
 
 		searchPanel.add(b1);
 		searchPanel.add(b2);
@@ -168,7 +231,7 @@ public class DBGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setEnabled(false);
-				JFrame insertFrame = new JFrame("Insert a new title");
+				JFrame insertFrame = new JFrame("Insert a New Title");
 				insertFrame.setSize(500, 500);
 				insertFrame.setResizable(false);
 				
@@ -390,11 +453,11 @@ public class DBGUI extends JFrame {
 		});
 		
 		//UPDATE Button:
-		updateButton = new JButton("Update");
-		updateButton.setBackground(Color.pink);
-		updateButton.setForeground(Color.WHITE);
-		updateButton.setFocusPainted(false);
-		updateButton.addActionListener(new ActionListener() {
+		editButton = new JButton("Edit");
+		editButton.setBackground(Color.pink);
+		editButton.setForeground(Color.WHITE);
+		editButton.setFocusPainted(false);
+		editButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//code here
@@ -462,7 +525,7 @@ public class DBGUI extends JFrame {
 		displayPanel.add(displayTextPanel);
 		displayPanel.add(buttonPanel);
 		buttonPanel.add(insertButton);
-		buttonPanel.add(updateButton);
+		buttonPanel.add(editButton);
 		buttonPanel.add(removeButton);
 
 		mainPanel.add(searchPanel);
