@@ -1326,3 +1326,45 @@ DELETE FROM movies WHERE title iLIKE predator2 [42122-214]
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+2022-08-25 17:39:48 jdbc[5]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTIONTEST CHARACTER VARYING(100)": "'this is a super long description test. this is done in order to test multiple l... (205)"; SQL statement:
+INSERT INTO movies (title, ReleaseYear, DescriptionTest) VALUES ('long desc test', '2013', 'this is a super long description test. this is done in order to test multiple lines of text of the description to see how the JLabel would handle it. I want to see if it will handle in automatically or not') [22001-214]
+2022-08-25 17:40:15 database: flush
+org.h2.message.DbException: General error: "org.h2.mvstore.MVStoreException: The file is locked: /home/frenzy/git/MovieTVSeriesDB/JavaH2Movies/urlfile.mv.db [2.1.214/7]" [50000-214]
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.message.DbException.convert(DbException.java:395)
+	at org.h2.mvstore.db.Store.lambda$new$0(Store.java:125)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:3318)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:593)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:469)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:4082)
+	at org.h2.mvstore.db.Store.<init>(Store.java:136)
+	at org.h2.engine.Database.<init>(Database.java:324)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.Driver.connect(Driver.java:59)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
+	at ConnectionBase.getConnection(ConnectionBase.java:18)
+	at H2ReadMovies.readMovies(H2ReadMovies.java:25)
+	at DBGUI.guiStart(DBGUI.java:62)
+	at H2EmbeddedDB.main(H2EmbeddedDB.java:28)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "org.h2.mvstore.MVStoreException: The file is locked: /home/frenzy/git/MovieTVSeriesDB/JavaH2Movies/urlfile.mv.db [2.1.214/7]" [50000-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:554)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	... 21 more
+Caused by: org.h2.mvstore.MVStoreException: The file is locked: /home/frenzy/git/MovieTVSeriesDB/JavaH2Movies/urlfile.mv.db [2.1.214/7]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.FileStore.open(FileStore.java:178)
+	at org.h2.mvstore.FileStore.open(FileStore.java:128)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:452)
+	... 15 more
+2022-08-25 17:40:57 jdbc[6]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTIONTEST CHARACTER VARYING(100)": "'This is a problem because a String[] has a static size, so an ArrayList should ... (430)"; SQL statement:
+INSERT INTO movies (title, ReleaseYear, DescriptionTest) VALUES ('long description test', '2013', 'This is a problem because a String[] has a static size, so an ArrayList should be used instead, as that has a dynamic size. Instead of converting the String[] array into an ArrayList, I have decided to have the ReadDB class have an ArrayList return output upon calling this class, and the GUI class will have an input of an ArrayList which will be converted into a String[] array. The reverse is unnecessarily complex. - now fixed') [22001-214]
+2022-08-25 17:43:38 jdbc[11]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTIONTEST CHARACTER VARYING(100)": "'This is a problem because a String[] has a static size, so an ArrayList should ... (367)"; SQL statement:
+INSERT INTO movies (title, ReleaseYear, DescriptionTest) VALUES ('very long thing', '2013', 'This is a problem because a String[] has a static size, so an ArrayList should be used instead, as that has a dynamic size. Instead of converting the String[] array into an ArrayList, I have decided to have the ReadDB class have an ArrayList return output upon calling this class, and the GUI class will have an input of an ArrayList which will be converted into a St') [22001-214]

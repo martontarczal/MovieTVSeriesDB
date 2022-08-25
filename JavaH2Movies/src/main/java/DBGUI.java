@@ -74,10 +74,201 @@ public class DBGUI extends JFrame {
 		        if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
 //		        	JList list = (JList)evt.getSource();	DELETE LINE
 //		            System.out.println(list.getSelectedValue());	DELETE LINE
-		            
-		            
-		        	
 //		            String input = searchtf.getText();	DELETE LINE
+		        	
+		        	
+		        	//detailsFrame start:
+		        	frame.setEnabled(false);
+					JFrame detailsFrame = new JFrame("Title Details");
+					detailsFrame.setSize(500, 500);
+					detailsFrame.setResizable(false);
+					
+					JPanel detailsPanelText = new JPanel(new GridLayout(3, 1));
+					detailsPanelText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					JPanel detailsPanelInput = new JPanel(new GridBagLayout());
+					detailsPanelInput.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					JPanel detailsPanelButtons = new JPanel(new GridBagLayout());
+					detailsPanelButtons.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					GridBagConstraints gbc = new GridBagConstraints();
+					
+					JLabel titleLabel = new JLabel("Title:", SwingConstants.CENTER/*RIGHT*/);
+					JLabel yearLabel = new JLabel("Year of release:", SwingConstants.CENTER/*RIGHT*/);
+					JLabel descLabel = new JLabel("Description:", SwingConstants.CENTER/*RIGHT*/);
+					
+//					JTextField newTitleField = new JTextField(SwingConstants.CENTER);
+//					newTitleField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+//					JTextField newYearField = new JTextField(SwingConstants.CENTER);
+//					newYearField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+//					JTextField newDescField = new JTextField(SwingConstants.CENTER);
+//					newDescField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					
+					JTextArea detailsTitleArea = new JTextArea();
+					detailsTitleArea.setLineWrap(true);
+					detailsTitleArea.setWrapStyleWord(true);
+					detailsTitleArea.setEditable(false);
+					JTextArea detailsYearArea = new JTextArea();
+					detailsYearArea.setLineWrap(true);
+					detailsYearArea.setWrapStyleWord(true);
+					detailsYearArea.setEditable(false);
+					JTextArea detailsDescArea = new JTextArea();
+					detailsDescArea.setLineWrap(true);
+					detailsDescArea.setWrapStyleWord(true);
+					detailsDescArea.setEditable(false);
+					
+					
+					JButton detailsEdit = new JButton("Edit");
+					detailsEdit.setPreferredSize(new Dimension(100, 25));
+					detailsEdit.setMaximumSize(new Dimension(100, 25));
+					JButton detailsClose = new JButton("Close");
+					detailsClose.setPreferredSize(new Dimension(100, 25));
+					detailsClose.setMaximumSize(new Dimension(100, 25));
+					
+					/*
+					//insertbuttons actionlistener stuff:
+					insertOK.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {						
+							String newTitleText = newTitleField.getText();
+							String newYearText = newYearField.getText();
+							String newDescText = newDescField.getText();
+							
+							if(newTitleText.isEmpty()) {
+								String message = "Title cannot be left empty.";
+								JOptionPane.showMessageDialog(new JFrame(), message, "Error", JOptionPane.ERROR_MESSAGE);
+							}
+							else {
+								String newTitleTextValidated = inputValidate(newTitleText);
+								String newYearTextValidated = inputValidate(newYearText);
+								String newDescTextValidated = inputValidate(newDescText);
+								
+								System.out.println(newTitleTextValidated);
+								System.out.println(newYearTextValidated);
+								System.out.println(newDescTextValidated);
+								
+								//remove next line if ready
+//								H2InsertMovie movieinsert = new H2InsertMovie();
+								
+								//check if year is empty, if yes, check if its valid
+								if(newYearTextValidated.isEmpty()) {
+									insertTitleFinal(newTitleTextValidated, newYearTextValidated, newDescTextValidated);
+									detailsFrame.dispose();	//frame should only dispose if title doesnt exist yet
+									
+									String input = "";
+									H2ReadMovies movieread = new H2ReadMovies();
+									try {
+										arraylistToConvert = movieread.readMovies(input);
+									} catch (ClassNotFoundException | SQLException e1) {
+										e1.printStackTrace();
+									}
+									convertedString = new String[arraylistToConvert.size()];
+									for (int i = 0; i < arraylistToConvert.size(); i++) {
+										convertedString[i] = arraylistToConvert.get(i);
+									}
+									rowList.setListData(convertedString);
+								}
+								else {
+									Pattern pattern = Pattern.compile("^(19|20)[0-9][0-9]$", Pattern.CASE_INSENSITIVE);
+								    
+								    Matcher matcher = pattern.matcher(newYearTextValidated);
+								    
+								    boolean matchFound = matcher.find();
+								    
+								    if(matchFound) {
+//								      System.out.println("DATE MATCHES");
+								      insertTitleFinal(newTitleTextValidated, newYearTextValidated, newDescTextValidated);
+								      detailsFrame.dispose();	//frame should only dispose if title doesnt exist yet
+								      
+								      String input = "";
+										H2ReadMovies movieread = new H2ReadMovies();
+										try {
+											arraylistToConvert = movieread.readMovies(input);
+										} catch (ClassNotFoundException | SQLException e1) {
+											e1.printStackTrace();
+										}
+										convertedString = new String[arraylistToConvert.size()];
+										for (int i = 0; i < arraylistToConvert.size(); i++) {
+											convertedString[i] = arraylistToConvert.get(i);
+										}
+										rowList.setListData(convertedString);
+								    } else {
+//								      System.out.println("date does not match");
+								    	String message = "Year is in the wrong format.";
+										JOptionPane.showMessageDialog(new JFrame(), message, "Error", JOptionPane.ERROR_MESSAGE);
+								    }
+								}
+								frame.setEnabled(true);
+							}
+						}
+					});
+					*/
+					
+					detailsClose.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							detailsFrame.dispose();
+				            frame.setEnabled(true);
+						}
+					});
+					
+					//Insert Panel settings and components added
+					detailsFrame.setLayout(new BorderLayout());
+					detailsPanelText.setBackground(Color.white);
+					detailsPanelText.setPreferredSize(new Dimension(175, 400));
+					detailsPanelText.setMaximumSize(new Dimension(175, 400));
+					
+					detailsPanelText.add(titleLabel);
+					detailsPanelText.add(yearLabel);
+					detailsPanelText.add(descLabel);
+					
+					detailsPanelInput.setBackground(Color.white);
+					detailsPanelInput.setPreferredSize(new Dimension(325, 400));
+					detailsPanelInput.setMaximumSize(new Dimension(325, 400));
+					
+					
+					gbc.ipadx = 290;
+					gbc.ipady = 45;	//JTextArea height!
+					gbc.insets = new Insets(0,0,50,0);;
+					gbc.gridx = 0;
+					gbc.gridy = 0;
+					detailsPanelInput.add( new JScrollPane( detailsTitleArea ), gbc);
+					gbc.insets = new Insets(0,0,0,0);;
+					gbc.gridx = 0;
+					gbc.gridy = 1;
+					detailsPanelInput.add( new JScrollPane( detailsYearArea ), gbc);
+					gbc.insets = new Insets(50,0,0,0);;
+					gbc.gridx = 0;
+					gbc.gridy = 2;
+					detailsPanelInput.add( new JScrollPane( detailsDescArea ), gbc);
+					
+					detailsPanelButtons.setBackground(Color.white);
+					detailsPanelButtons.setPreferredSize(new Dimension(100, 100));
+					detailsPanelButtons.setMaximumSize(new Dimension(100, 100));
+					
+					gbc.ipadx = 0;
+					gbc.ipady = 0;
+					gbc.gridx = 0;
+					gbc.gridy = 0;
+					gbc.insets = new Insets(0,0,0,50);;
+					detailsPanelButtons.add(detailsEdit, gbc);
+					detailsPanelButtons.add(detailsClose);
+					
+					
+					detailsFrame.add(detailsPanelText, BorderLayout.WEST);
+					detailsFrame.add(detailsPanelInput, BorderLayout.EAST);
+					detailsFrame.add(detailsPanelButtons, BorderLayout.SOUTH);
+					
+					detailsFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+					detailsFrame.setLocationRelativeTo(null);
+					detailsFrame.setVisible(true);
+					detailsFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+					    @Override
+					    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+							detailsFrame.dispose();
+				            frame.setEnabled(true);
+					    }
+					});
+					//detailsFrame end
+					
 		            String input = (String) list.getSelectedValue();
 					
 					H2ReadMovies moviereaddetails = new H2ReadMovies();
@@ -99,6 +290,9 @@ public class DBGUI extends JFrame {
 					for(int i = 0; i < convertedString.length; i++) {
 						System.out.println(i + ": " + convertedString[i] + "\n");
 					}
+					detailsTitleArea.setText(convertedString[0]);
+					detailsYearArea.setText(convertedString[1]);
+					detailsDescArea.setText(convertedString[2]);
 		        }
 		    }
 		});
