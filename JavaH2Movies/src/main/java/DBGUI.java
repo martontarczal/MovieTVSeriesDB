@@ -468,6 +468,14 @@ public class DBGUI extends JFrame {
 							String message = "Title cannot be left empty.";
 							JOptionPane.showMessageDialog(new JFrame(), message, "Error", JOptionPane.ERROR_MESSAGE);
 						}
+						else if(newTitleText.length() > 100) {
+							String message = "Title cannot be longer than 100 characters.";
+							JOptionPane.showMessageDialog(new JFrame(), message, "Error", JOptionPane.ERROR_MESSAGE);
+						}
+						else if(newDescText.length() > 500) {
+							String message = "Description cannot be longer than 500 characters.";
+							JOptionPane.showMessageDialog(new JFrame(), message, "Error", JOptionPane.ERROR_MESSAGE);
+						}
 						else {
 							String newTitleTextValidated = inputValidate(newTitleText);
 							String newYearTextValidated = inputValidate(newYearText);
