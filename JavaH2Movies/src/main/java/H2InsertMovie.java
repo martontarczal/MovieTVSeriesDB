@@ -51,7 +51,7 @@ public class H2InsertMovie {
 		    return false;
 		}
 		else {
-//			System.out.println(count);
+//			System.out.println("Records found: " + count);
 			return true;
 		}
 	}

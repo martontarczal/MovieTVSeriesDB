@@ -32,7 +32,6 @@ public class DBGUI extends JFrame {
 	// right-side panel that has the buttons
 	private static JPanel buttonPanel;
 	private static JButton insertButton;
-	private static JButton editButton;
 	private static JButton removeButton;
 
 	// scrollpane that enables usage of scrollable & selectable list of titles
@@ -123,84 +122,278 @@ public class DBGUI extends JFrame {
 					detailsClose.setPreferredSize(new Dimension(100, 25));
 					detailsClose.setMaximumSize(new Dimension(100, 25));
 					
-					/*
-					//insertbuttons actionlistener stuff:
-					insertOK.addActionListener(new ActionListener() {
+					
+					//detailsEdit button actionlistener stuff:
+					detailsEdit.addActionListener(new ActionListener() {
 						@Override
-						public void actionPerformed(ActionEvent e) {						
-							String newTitleText = newTitleField.getText();
-							String newYearText = newYearField.getText();
-							String newDescText = newDescField.getText();
+						public void actionPerformed(ActionEvent e) {
+							detailsFrame.setEnabled(false);
+							JFrame editFrame = new JFrame("Update Title Details");
+							editFrame.setSize(825, 500);
+							editFrame.setResizable(false);
 							
-							if(newTitleText.isEmpty()) {
-								String message = "Title cannot be left empty.";
-								JOptionPane.showMessageDialog(new JFrame(), message, "Error", JOptionPane.ERROR_MESSAGE);
-							}
-							else {
-								String newTitleTextValidated = inputValidate(newTitleText);
-								String newYearTextValidated = inputValidate(newYearText);
-								String newDescTextValidated = inputValidate(newDescText);
-								
-								System.out.println(newTitleTextValidated);
-								System.out.println(newYearTextValidated);
-								System.out.println(newDescTextValidated);
-								
-								//remove next line if ready
-//								H2InsertMovie movieinsert = new H2InsertMovie();
-								
-								//check if year is empty, if yes, check if its valid
-								if(newYearTextValidated.isEmpty()) {
-									insertTitleFinal(newTitleTextValidated, newYearTextValidated, newDescTextValidated);
-									detailsFrame.dispose();	//frame should only dispose if title doesnt exist yet
+							JPanel editPanelText = new JPanel(new GridLayout(3, 1));
+							editPanelText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+							JPanel editPanelInput = new JPanel(new GridBagLayout());
+							editPanelInput.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+							JPanel editPanelButtons = new JPanel(new GridBagLayout());
+							editPanelButtons.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+							GridBagConstraints gbc = new GridBagConstraints();
+							
+							JPanel editPanelNewInput = new JPanel(new GridBagLayout());
+							editPanelNewInput.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+							
+							JLabel editTitleLabel = new JLabel("Title:", SwingConstants.CENTER/*RIGHT*/);
+							JLabel editYearLabel = new JLabel("Year of release:", SwingConstants.CENTER/*RIGHT*/);
+							JLabel editDescLabel = new JLabel("Description:", SwingConstants.CENTER/*RIGHT*/);
+							
+							JTextArea editTitleArea = new JTextArea();
+							editTitleArea.setLineWrap(true);
+							editTitleArea.setWrapStyleWord(true);
+							editTitleArea.setEditable(false);
+							JTextArea editYearArea = new JTextArea();
+							editYearArea.setLineWrap(true);
+							editYearArea.setWrapStyleWord(true);
+							editYearArea.setEditable(false);
+							JTextArea editDescArea = new JTextArea();
+							editDescArea.setLineWrap(true);
+							editDescArea.setWrapStyleWord(true);
+							editDescArea.setEditable(false);
+							
+							
+							//update title details text areas:
+							JTextArea editNewTitleArea = new JTextArea();
+							editNewTitleArea.setLineWrap(true);
+							editNewTitleArea.setWrapStyleWord(true);
+							editNewTitleArea.setEditable(true);
+							JTextArea editNewYearArea = new JTextArea();
+							editNewYearArea.setLineWrap(true);
+							editNewYearArea.setWrapStyleWord(true);
+							editNewYearArea.setEditable(true);
+							JTextArea editNewDescArea = new JTextArea();
+							editNewDescArea.setLineWrap(true);
+							editNewDescArea.setWrapStyleWord(true);
+							editNewDescArea.setEditable(true);
+							
+							
+							JButton confirmEditBtn = new JButton("Confirm Edit");
+							confirmEditBtn.setPreferredSize(new Dimension(120, 25));
+							confirmEditBtn.setMaximumSize(new Dimension(120, 25));
+							JButton editCloseBtn = new JButton("Close");
+							editCloseBtn.setPreferredSize(new Dimension(100, 25));
+							editCloseBtn.setMaximumSize(new Dimension(100, 25));
+							
+							confirmEditBtn.addActionListener(new ActionListener() {
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									String editedTitleText = editNewTitleArea.getText();
+									String editedYearText = editNewYearArea.getText();
+									String editedDescText = editNewDescArea.getText();
+									String oldTitleGet = detailsTitleArea.getText();
 									
-									String input = "";
-									H2ReadMovies movieread = new H2ReadMovies();
-									try {
-										arraylistToConvert = movieread.readMovies(input);
-									} catch (ClassNotFoundException | SQLException e1) {
-										e1.printStackTrace();
-									}
-									convertedString = new String[arraylistToConvert.size()];
-									for (int i = 0; i < arraylistToConvert.size(); i++) {
-										convertedString[i] = arraylistToConvert.get(i);
-									}
-									rowList.setListData(convertedString);
-								}
-								else {
-									Pattern pattern = Pattern.compile("^(19|20)[0-9][0-9]$", Pattern.CASE_INSENSITIVE);
-								    
-								    Matcher matcher = pattern.matcher(newYearTextValidated);
-								    
-								    boolean matchFound = matcher.find();
-								    
-								    if(matchFound) {
-//								      System.out.println("DATE MATCHES");
-								      insertTitleFinal(newTitleTextValidated, newYearTextValidated, newDescTextValidated);
-								      detailsFrame.dispose();	//frame should only dispose if title doesnt exist yet
-								      
-								      String input = "";
-										H2ReadMovies movieread = new H2ReadMovies();
-										try {
-											arraylistToConvert = movieread.readMovies(input);
-										} catch (ClassNotFoundException | SQLException e1) {
-											e1.printStackTrace();
-										}
-										convertedString = new String[arraylistToConvert.size()];
-										for (int i = 0; i < arraylistToConvert.size(); i++) {
-											convertedString[i] = arraylistToConvert.get(i);
-										}
-										rowList.setListData(convertedString);
-								    } else {
-//								      System.out.println("date does not match");
-								    	String message = "Year is in the wrong format.";
+									if(editedTitleText.isEmpty()) {
+										String message = "Title cannot be left empty.";
 										JOptionPane.showMessageDialog(new JFrame(), message, "Error", JOptionPane.ERROR_MESSAGE);
-								    }
+									}
+									else if(editedTitleText.length() > 100) {
+										String message = "Title cannot be longer than 100 characters.";
+										JOptionPane.showMessageDialog(new JFrame(), message, "Error", JOptionPane.ERROR_MESSAGE);
+									}
+									else if(editedDescText.length() > 500) {
+										String message = "Description cannot be longer than 500 characters.";
+										JOptionPane.showMessageDialog(new JFrame(), message, "Error", JOptionPane.ERROR_MESSAGE);
+									}
+									else {
+										String editedTitleTextValidated = inputValidate(editedTitleText);
+										String editedYearTextValidated = inputValidate(editedYearText);
+										String editedDescTextValidated = inputValidate(editedDescText);
+										
+										System.out.println(editedTitleTextValidated);
+										System.out.println(editedYearTextValidated);
+										System.out.println(editedDescTextValidated);
+										
+										if(editedYearTextValidated.isEmpty()) {
+											editTitleUploadFinal(editedTitleTextValidated, editedYearTextValidated, editedDescTextValidated, oldTitleGet);
+											
+//											insertTitleFinal(editedTitleTextValidated, editedYearTextValidated, editedDescTextValidated);
+											editFrame.dispose();	//frame should only dispose if title doesnt exist yet
+											detailsFrame.dispose();
+											
+											String searchAllString = "";
+											H2ReadMovies movieread = new H2ReadMovies();
+											try {
+												arraylistToConvert = movieread.readMovies(searchAllString);
+											} catch (ClassNotFoundException | SQLException e1) {
+												e1.printStackTrace();
+											}
+											convertedString = new String[arraylistToConvert.size()];
+											for (int i = 0; i < arraylistToConvert.size(); i++) {
+												convertedString[i] = arraylistToConvert.get(i);
+											}
+											rowList.setListData(convertedString);
+										}
+										else {
+											Pattern pattern = Pattern.compile("^(19|20)[0-9][0-9]$", Pattern.CASE_INSENSITIVE);
+										    
+										    Matcher matcher = pattern.matcher(editedYearTextValidated);
+										    
+										    boolean matchFound = matcher.find();
+										    
+										    if(matchFound) {
+										      H2UpdateMovie updateMovieEdit = new H2UpdateMovie();
+										      try {
+												updateMovieEdit.updateMovie(editedTitleTextValidated, editedYearTextValidated, editedDescTextValidated, oldTitleGet);
+											} catch (ClassNotFoundException | SQLException e2) {
+												// TODO Auto-generated catch block
+												e2.printStackTrace();
+											}
+										      editFrame.dispose();	//frame should only dispose if title doesnt exist yet
+										      detailsFrame.dispose();
+										      
+										      String input = "";
+												H2ReadMovies movieread = new H2ReadMovies();
+												try {
+													arraylistToConvert = movieread.readMovies(input);
+												} catch (ClassNotFoundException | SQLException e1) {
+													e1.printStackTrace();
+												}
+												convertedString = new String[arraylistToConvert.size()];
+												for (int i = 0; i < arraylistToConvert.size(); i++) {
+													convertedString[i] = arraylistToConvert.get(i);
+												}
+												rowList.setListData(convertedString);
+										    } else {
+//										      System.out.println("date does not match");
+										    	String message = "Year is in the wrong format.";
+												JOptionPane.showMessageDialog(new JFrame(), message, "Error", JOptionPane.ERROR_MESSAGE);
+										    }
+										}
+										frame.setEnabled(true);
+									}
 								}
-								frame.setEnabled(true);
+							});
+							
+							editCloseBtn.addActionListener(new ActionListener() {
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									int res = JOptionPane.showOptionDialog(new JFrame(), "Are you sure you want to close this window?","Close Window?",
+							    	         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+							    	         new Object[] { "Yes", "No" }, JOptionPane.YES_OPTION);
+							    	
+							    	if (res == JOptionPane.YES_OPTION) {
+										editFrame.dispose();
+							            detailsFrame.setEnabled(true);
+							         } else if (res == JOptionPane.NO_OPTION) {
+							        	 //close warning, do nothing
+							         } else if (res == JOptionPane.CLOSED_OPTION) {
+							        	//close warning, do nothing
+							         }
+								}
+							});
+							
+							//edit details frame settings and components added
+							editFrame.setLayout(new BorderLayout());
+							editPanelText.setBackground(Color.white);
+							editPanelText.setPreferredSize(new Dimension(175, 400));
+							editPanelText.setMaximumSize(new Dimension(175, 400));
+							
+							editPanelText.add(editTitleLabel);
+							editPanelText.add(editYearLabel);
+							editPanelText.add(editDescLabel);
+							
+							editPanelInput.setBackground(Color.white);
+							editPanelInput.setPreferredSize(new Dimension(325, 400));
+							editPanelInput.setMaximumSize(new Dimension(325, 400));
+							
+							editPanelNewInput.setBackground(Color.white);
+							editPanelNewInput.setPreferredSize(new Dimension(325, 400));
+							editPanelNewInput.setMaximumSize(new Dimension(325, 400));
+							
+							
+							gbc.ipadx = 290;
+							gbc.ipady = 45;	//JTextArea height!
+							gbc.insets = new Insets(0,0,50,0);;
+							gbc.gridx = 0;
+							gbc.gridy = 0;
+							editPanelInput.add( new JScrollPane( editTitleArea ), gbc);
+							editPanelNewInput.add( new JScrollPane( editNewTitleArea ), gbc);
+							gbc.insets = new Insets(0,0,0,0);;
+							gbc.gridx = 0;
+							gbc.gridy = 1;
+							editPanelInput.add( new JScrollPane( editYearArea ), gbc);
+							editPanelNewInput.add( new JScrollPane( editNewYearArea ), gbc);
+							gbc.insets = new Insets(50,0,0,0);;
+							gbc.gridx = 0;
+							gbc.gridy = 2;
+							editPanelInput.add( new JScrollPane( editDescArea ), gbc);
+							editPanelNewInput.add( new JScrollPane( editNewDescArea ), gbc);
+							
+							editPanelButtons.setBackground(Color.white);
+							editPanelButtons.setPreferredSize(new Dimension(100, 100));
+							editPanelButtons.setMaximumSize(new Dimension(100, 100));
+							
+							gbc.ipadx = 0;
+							gbc.ipady = 0;
+							gbc.gridx = 0;
+							gbc.gridy = 0;
+							gbc.insets = new Insets(0,0,0,50);;
+							editPanelButtons.add(confirmEditBtn, gbc);
+							editPanelButtons.add(editCloseBtn);
+							
+							
+							editFrame.add(editPanelText, BorderLayout.WEST);
+							editFrame.add(editPanelNewInput, BorderLayout.EAST);//used to be Center
+							editFrame.add(editPanelInput, BorderLayout.CENTER);//used to be East
+							editFrame.add(editPanelButtons, BorderLayout.SOUTH);
+							
+							editFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+							editFrame.setLocationRelativeTo(null);
+							editFrame.setVisible(true);
+							editFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+							    @Override
+							    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+							    	int res = JOptionPane.showOptionDialog(new JFrame(), "Are you sure you want to close this window?","Close Window?",
+							    	         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+							    	         new Object[] { "Yes", "No" }, JOptionPane.YES_OPTION);
+							    	
+							    	if (res == JOptionPane.YES_OPTION) {
+										editFrame.dispose();
+							            detailsFrame.setEnabled(true);
+							         } else if (res == JOptionPane.NO_OPTION) {
+							        	 //close warning, do nothing
+							         } else if (res == JOptionPane.CLOSED_OPTION) {
+							        	//close warning, do nothing
+							         }
+							    }
+							});
+							//edit details frame end
+							
+							
+				            String input1 = (String) list.getSelectedValue();
+							
+							H2ReadMovies moviereaddetails = new H2ReadMovies();
+							try {
+								arraylistToConvert = moviereaddetails.readMovieDetails(input1);
+							} catch (ClassNotFoundException | SQLException e1) {
+								e1.printStackTrace();
 							}
+
+							convertedString = new String[arraylistToConvert.size()];
+							for (int i = 0; i < arraylistToConvert.size(); i++) {
+								convertedString[i] = arraylistToConvert.get(i);
+							}
+							
+							for(int i = 0; i < convertedString.length; i++) {
+								System.out.println(i + ": " + convertedString[i] + "\n");
+							}
+							editTitleArea.setText(convertedString[0]);
+							editYearArea.setText(convertedString[1]);
+							editDescArea.setText(convertedString[2]);
 						}
 					});
-					*/
+					//end of detailsEdit button action stuff!!
+					
+					
 					
 					detailsClose.addActionListener(new ActionListener() {
 						@Override
@@ -210,7 +403,7 @@ public class DBGUI extends JFrame {
 						}
 					});
 					
-					//Insert Panel settings and components added
+					//Details frame settings and components added
 					detailsFrame.setLayout(new BorderLayout());
 					detailsPanelText.setBackground(Color.white);
 					detailsPanelText.setPreferredSize(new Dimension(175, 400));
@@ -654,19 +847,6 @@ public class DBGUI extends JFrame {
 			}
 		});
 		
-		//UPDATE Button:
-		editButton = new JButton("Edit");
-		editButton.setBackground(Color.pink);
-		editButton.setForeground(Color.WHITE);
-		editButton.setFocusPainted(false);
-		editButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//code here
-			}
-		});
-		
-		
 		//REMOVE Button:
 		removeButton = new JButton("Remove");
 		removeButton.setBackground(Color.pink);
@@ -704,7 +884,6 @@ public class DBGUI extends JFrame {
 							}
 							rowList.setListData(convertedString);
 							
-							
 							String message = "Title has been successfully removed.";
 							JOptionPane.showMessageDialog(new JFrame(), message, "Deletion Successful", JOptionPane.PLAIN_MESSAGE);
 						} catch (ClassNotFoundException | SQLException e1) {
@@ -727,7 +906,6 @@ public class DBGUI extends JFrame {
 		displayPanel.add(displayTextPanel);
 		displayPanel.add(buttonPanel);
 		buttonPanel.add(insertButton);
-		buttonPanel.add(editButton);
 		buttonPanel.add(removeButton);
 
 		mainPanel.add(searchPanel);
@@ -780,6 +958,28 @@ public class DBGUI extends JFrame {
 				
 				//remove following 1 line if ready
 //				insertFrame.dispose();	//frame should only dispose if title doesnt exist yet
+			}
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	private void editTitleUploadFinal(String updateTitle, String updateYear, String updateDesc, String prevTitle) {
+		H2InsertMovie movieinsert = new H2InsertMovie();
+		H2UpdateMovie updateMovieEdit = new H2UpdateMovie();
+				
+		try {
+			boolean insertCheckRes = movieinsert.checkDuplicate(updateTitle);
+			
+			if(insertCheckRes == true) {
+				String message = "Title already exists.";
+				JOptionPane.showMessageDialog(new JFrame(), message, "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			else {
+				//title doesnt exist yet, add to DB
+				System.out.println("title doesnt exist yet, added to DB");
+				
+				updateMovieEdit.updateMovie(updateTitle, updateYear, updateDesc, prevTitle);
 			}
 		} catch (ClassNotFoundException | SQLException e1) {
 			e1.printStackTrace();
