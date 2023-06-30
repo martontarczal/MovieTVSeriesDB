@@ -9,6 +9,7 @@ public class ConnectionBase {
 	
 	public static Connection getConnection()throws ClassNotFoundException,SQLException
     {
+		Class.forName("org.h2.Driver");
 //		String jdbcURL = "jdbc:h2:/home/frenzy/eclipse-workspace/JavaH2Movies/urlfile";	//for local
 		String jdbcURL = "jdbc:h2:/home/frenzy/git/MovieTVSeriesDB//JavaH2Movies/urlfile";	//for git (new local)
 		String jdbcUsername = "sa";

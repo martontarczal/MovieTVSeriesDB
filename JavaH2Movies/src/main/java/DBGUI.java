@@ -22,8 +22,9 @@ public class DBGUI extends JFrame {
 
 	// upper panel that has the two modes (Movies & TV Series) & searching
 	private static JPanel searchPanel;
-	private static JButton b1, b2, b3;
+	private static JButton b1, b2, b3;	//b1 = movies, b2 = tvseries
 	private static JTextField searchtf;
+	private static boolean moviesShownBool = true;
 	
 	// lower panel that displays search results
 	private static JPanel displayPanel;
@@ -507,10 +508,14 @@ public class DBGUI extends JFrame {
 		b1.setBackground(PURPLE);
 		b1.setForeground(Color.WHITE);
 		b1.setFocusPainted(false);
+		b1.setEnabled(false);
 		b1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//code here
+				b1.setEnabled(false);
+				b2.setEnabled(true);
+				moviesShownBool = true;
+				//System.out.println(moviesShownBool);
 			}
 		});
 		
@@ -522,7 +527,10 @@ public class DBGUI extends JFrame {
 		b2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//code here
+				b2.setEnabled(false);
+				b1.setEnabled(true);
+				moviesShownBool = false;
+				//System.out.println(moviesShownBool);
 			}
 		});
 		
@@ -583,8 +591,8 @@ public class DBGUI extends JFrame {
 			}
 		});
 
-		searchPanel.add(b1);
-		searchPanel.add(b2);
+		//searchPanel.add(b1);
+		//searchPanel.add(b2);
 		searchPanel.add(searchtf);
 		searchPanel.add(b3);
 
